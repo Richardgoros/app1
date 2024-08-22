@@ -2,9 +2,6 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
 
-ofertas_auto = ["Service", "Alineado y Balanceo", "Cubiertas", "Bateria", "Frenos", "Amortiguadores", "Luces" ]
-ofertas_moto = ["Cambio de aceite", "Revisión de cadena", "Ajuste de frenos", "Cambio de filtro de aire", "Revisión de luces", "Inspección de neumáticos", "Ajuste de embrague"]
-
 class VehicleApp:
     def __init__(self, root):
         self.root = root
