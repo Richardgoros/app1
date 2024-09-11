@@ -2,59 +2,58 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
 
-class VehicleApp:
+class AppVehiculos:
+    
     def __init__(self, root):
         self.root = root
         self.root.title("AUTOBOT REPARACIONES SRL: Tu vehículo al 100%!")
         self.root.geometry("700x700")
  
-        # Crear el marco principal
+        #Crear el frame principal
         self.frame = tk.Frame(self.root, bg='steelblue')
         self.frame.pack(padx=10, pady=10, fill='both', expand='true')
 
-        # Pantalla de registro de vehículo
-        self.vehicle_data = {}
+        #Pantalla de registro del vehículo
+        self.data_vehiculo = {}
         self.create_register_screen()
-
+        
     def create_register_screen(self):
         self.register_frame = tk.Frame(self.frame, bg='lightblue')  
         self.register_frame.pack(padx=10, pady=10)
 
 
-        tk.Label(self.register_frame,bg='lightblue', text="Bienvenido a AUTOBOT SRL, por favor complete los campos para registrar su vehículo", wraplength=250).grid(row=0, column=1, columnspan=4)
-        self.vehicle_type = tk.StringVar()
-        tk.Radiobutton(self.register_frame, bg='lightblue',text="Automotor", variable=self.vehicle_type, value="Automotor").grid(row=1, column=4)
-        tk.Radiobutton(self.register_frame, bg='lightblue',text="Motocicleta", variable=self.vehicle_type, value="Motocicleta").grid(row=1, column=5)
+        tk.Label(self.register_frame,bg='lightblue', text="Bienvenido a AUTOBOT SRL, por favor complete los campos para registrar su vehículo", wraplength=250).grid(row=0, column=2, columnspan=3)
+        self.tipo_vehiculo = tk.StringVar()
+        tk.Radiobutton(self.register_frame, bg='lightblue',text="Automotor", variable=self.tipo_vehiculo, value="Automotor").grid(row=1, column=2)
+        tk.Radiobutton(self.register_frame, bg='lightblue',text="Motocicleta", variable=self.tipo_vehiculo, value="Motocicleta").grid(row=1, column=3)
         tk.Label(self.register_frame, text="Vehículo:",bg='lightblue').grid(row=1, column=1)
-        #self.type_entry = tk.Entry(self.register_frame, bg='lightgrey')
-        #self.type_entry.grid(row=1, column=1)
 
         tk.Label(self.register_frame, text="Marca:",bg='lightblue').grid(row=2, column=1)
         self.brand_entry = tk.Entry(self.register_frame, bg='lightgrey')
-        self.brand_entry.grid(row=2, column=4)
+        self.brand_entry.grid(row=2, column=2, columnspan=2)
 
         tk.Label(self.register_frame, text="Modelo:",bg='lightblue').grid(row=3, column=1)
         self.model_entry = tk.Entry(self.register_frame, bg='lightgrey')
-        self.model_entry.grid(row=3, column=4)
+        self.model_entry.grid(row=3, column=2, columnspan=2)
 
         tk.Label(self.register_frame, text="Año:",bg='lightblue').grid(row=4, column=1)
         self.year_entry = tk.Entry(self.register_frame, bg='lightgrey')
-        self.year_entry.grid(row=4, column=4)
+        self.year_entry.grid(row=4, column=2, columnspan=2)
 
-        tk.Button(self.register_frame, text="Registrar", command=self.register_vehicle, bg='lightgrey').grid(row=5, column=5, pady=10)
+        tk.Button(self.register_frame, text="Registrar", command=self.register_vehicle, bg='lightgrey').grid(row=5, column=2, columnspan=2, pady=10)
 
     def register_vehicle(self):
-        self.vehicle_data = {
-            "type": self.vehicle_type.get(),
+        self.data_vehiculo = {
+            "type": self.tipo_vehiculo.get(),
             "brand": self.brand_entry.get(),
             "model": self.model_entry.get(),
             "year": self.year_entry.get()
         }
-        if any(value == "" for value in self.vehicle_data.values()):
+        if any(value == "" for value in self.data_vehiculo.values()):
             messagebox.showwarning("Advertencia", "Por favor, complete todos los campos.")
             return
 
-        # Ocultar pantalla de registro y mostrar pantalla de usuario
+        #Ocultar pantalla de registro y mostrar pantalla de usuario
         self.register_frame.pack_forget()
         self.create_user_screen()
 
@@ -62,39 +61,36 @@ class VehicleApp:
         self.user_frame = tk.Frame(self.frame,bg='lightblue')
         self.user_frame.pack(padx=10, pady=10)
 
-        # Datos del vehículo
-        tk.Label(self.user_frame, text=f"Bienvenido usuario del vehículo:", bg='lightblue').grid(row=0, column=0, columnspan=2)
-        tk.Label(self.user_frame, text=f"Tipo: {self.vehicle_data['type']}", bg='lightblue').grid(row=1, column=0, columnspan=2)
-        tk.Label(self.user_frame, text=f"Marca: {self.vehicle_data['brand']}", bg='lightblue').grid(row=2, column=0, columnspan=2)
-        tk.Label(self.user_frame, text=f"Modelo: {self.vehicle_data['model']}", bg='lightblue').grid(row=3, column=0, columnspan=2)
-        tk.Label(self.user_frame, text=f"Año: {self.vehicle_data['year']}", bg='lightblue').grid(row=4, column=0, columnspan=2)
+        #Datos del vehículo
+        tk.Label(self.user_frame, text=f"Bienvenido usuario del vehículo:", bg='lightblue').grid(row=0, column=1, columnspan=2)
+        tk.Label(self.user_frame, text=f"Tipo: {self.data_vehiculo['type']}", bg='lightblue').grid(row=1, column=1, columnspan=2)
+        tk.Label(self.user_frame, text=f"Marca: {self.data_vehiculo['brand']}", bg='lightblue').grid(row=2, column=1, columnspan=2)
+        tk.Label(self.user_frame, text=f"Modelo: {self.data_vehiculo['model']}", bg='lightblue').grid(row=3, column=1, columnspan=2)
+        tk.Label(self.user_frame, text=f"Año: {self.data_vehiculo['year']}", bg='lightblue').grid(row=4, column=1, columnspan=2)
 
-        #scrollbar = tk.Scrollbar(self.parts_listbox)
-        #scrollbar.pack(side = tk.BOTTOM, fill = tk.X)
-
-        # Lista de partes
+        #Lista de reparaciones disponibles
         self.parts_listbox = tk.Listbox(self.user_frame, bg='lightgrey', width=40)
         self.parts_listbox.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
         
         
         self.update_parts_list()
-        tk.Label(self.user_frame, text=f"Reparaciones disponibles",bg='lightblue').grid(row=5, column=0)
-        tk.Label(self.user_frame, text=f"Turnos pendientes",bg='lightblue').grid(row=5, column=1)
+        tk.Label(self.user_frame, text=f"Reparaciones disponibles",bg='lightblue').grid(row=5, column=0, columnspan=2)
+        tk.Label(self.user_frame, text=f"Turnos pendientes",bg='lightblue').grid(row=5, column=2, columnspan=2)
         tk.Button(self.user_frame, text="Solicitar turno", command=self.show_reservation_screen, bg='lightgrey').grid(row=7, column=0, pady=10)
 
-        # Lista de turnos pendientes
+        #Lista de turnos pendientes
         self.reservations = []
-        self.turnos_lista = tk.Listbox(self.user_frame, bg='lightgrey')
-        self.turnos_lista.grid(row=6, column=1, columnspan=2, padx=10, pady=10)
+        self.turnos_lista = tk.Listbox(self.user_frame, bg='lightgrey', width=40)
+        self.turnos_lista.grid(row=6, column=2, columnspan=2, padx=10, pady=10)
         
 
-    #Funcion tipo de vehiculo
+    #Función tipo de vehículo
 
     def update_parts_list(self):
 
         self.parts_listbox.delete(0, tk.END)
-        if self.vehicle_data["type"] == "Automotor":
-            parts = ["Service", "Alineado y Balanceo", "Cubiertas", "Bateria", "Frenos", "Amortiguadores", "Luces" ]
+        if self.data_vehiculo["type"] == "Automotor":
+            parts = ["Service", "Alineado y Balanceo", "Cubiertas", "Bateria", "Frenos", "Amortiguadores", "Luces" , "Bocina"]
         else:
             parts = ["Cambio de aceite", "Revisión de cadena", "Ajuste de frenos", "Cambio de filtro de aire", "Revisión de luces", "Inspección de neumáticos", "Ajuste de embrague"]
 
@@ -147,6 +143,7 @@ class VehicleApp:
         reservation_details = f"{self.part_to_reserve} - {name} - {phone} - {fecha}"
         self.reservations.append(reservation_details)
 
+        messagebox.showinfo("Solicitud completada", "Su reserva ha sido registrada con éxito. En breve será contactado para coordinar detalles. Muchas gracias.")
         self.reservation_frame.pack_forget()
         self.show_updated_user_screen()
 
@@ -154,14 +151,14 @@ class VehicleApp:
         self.user_frame = tk.Frame(self.frame, bg='lightblue')
         self.user_frame.pack(padx=10, pady=10)
 
-        # Datos del vehículo
+        #Datos del vehículo actualizado
         tk.Label(self.user_frame, text=f"Bienvenido usuario del vehículo:", bg='lightblue').grid(row=0, column=0, columnspan=2)
-        tk.Label(self.user_frame, text=f"Tipo: {self.vehicle_data['type']}", bg='lightblue').grid(row=1, column=0, columnspan=2)
-        tk.Label(self.user_frame, text=f"Marca: {self.vehicle_data['brand']}", bg='lightblue').grid(row=2, column=0, columnspan=2)
-        tk.Label(self.user_frame, text=f"Modelo: {self.vehicle_data['model']}", bg='lightblue').grid(row=3, column=0, columnspan=2)
-        tk.Label(self.user_frame, text=f"Año: {self.vehicle_data['year']}", bg='lightblue').grid(row=4, column=0, columnspan=2)
+        tk.Label(self.user_frame, text=f"Tipo: {self.data_vehiculo['type']}", bg='lightblue').grid(row=1, column=0, columnspan=2)
+        tk.Label(self.user_frame, text=f"Marca: {self.data_vehiculo['brand']}", bg='lightblue').grid(row=2, column=0, columnspan=2)
+        tk.Label(self.user_frame, text=f"Modelo: {self.data_vehiculo['model']}", bg='lightblue').grid(row=3, column=0, columnspan=2)
+        tk.Label(self.user_frame, text=f"Año: {self.data_vehiculo['year']}", bg='lightblue').grid(row=4, column=0, columnspan=2)
 
-        # Lista de partes
+        #Lista de reparaciones disponibles actualizada
         self.parts_listbox = tk.Listbox(self.user_frame, bg='lightgrey', width=40)
         self.parts_listbox.grid(row=6, column=0, padx=10, pady=10)
         
@@ -169,15 +166,17 @@ class VehicleApp:
 
         tk.Label(self.user_frame, text=f"Reparaciones disponibles",bg='lightblue').grid(row=5, column=0)
         tk.Label(self.user_frame, text=f"Turnos pendientes",bg='lightblue').grid(row=5, column=1)
-        tk.Button(self.user_frame, text="Solicitar turno", command=self.show_reservation_screen, bg='lightgrey').grid(row=7, column=0, pady=10)
+        tk.Button(self.user_frame, text="Solicitar turno", command=self.show_reservation_screen, bg='lightgrey').grid(row=8, column=0, pady=10)
 
-        # Lista de reservas pendientes
+        #Lista de reservas pendientes actualizada
         self.turnos_lista = tk.Listbox(self.user_frame, bg='lightgrey', width=40)
         self.turnos_lista.grid(row=6, column=1, padx=10, pady=10)
         for reservation in self.reservations:
             self.turnos_lista.insert(tk.END, reservation)
+        self.scrollbar_x = tk.Scrollbar(self.user_frame, orient=tk.HORIZONTAL)
+        self.turnos_lista.config(xscrollcommand=self.scrollbar_x.set)
+        self.scrollbar_x.config(command=self.turnos_lista.xview)
+        self.scrollbar_x.grid(row=7, column=1, columnspan=2, sticky="ew")
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = VehicleApp(root)
-    root.mainloop()
+
+
